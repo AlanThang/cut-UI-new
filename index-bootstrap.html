@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hồ sơ yêu cầu bổ sung - F88</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    /* ===== CSS Variables (giữ nguyên brand colors) ===== */
+    :root {
+      --green:          #00833E;
+      --green-gradient: linear-gradient(90deg, #4FA800 0%, #00844E 100%);
+      --Neutral-235:    #F2F3F5;
+      --Neutral-E8:     #E8E8E8;
+      --Neutral-D8:     #D8D8D8;
+      --Neutral-F8:     #F8F8F8;
+      --Neutral-88:     #888888;
+      --Gray-600:       #344054;
+      --text-main:      #333333;
+      --Red-Alert:      #E54949;
+    }
+
+    /* ===== Global ===== */
+    body { font-family: 'Inter', sans-serif; font-size: 13px; background: var(--Neutral-235); color: var(--text-main); min-width: 1920px; }
+
+    /* ===== Sidebar ===== */
+    .sidebar-wrap {
+      width: 288px; min-width: 288px;
+      border-top-right-radius: 24px; border-bottom-right-radius: 24px;
+      background: var(--Neutral-235);
+      box-shadow: 4px 4px 4px rgba(0,0,0,.04);
+    }
+    .sidebar-create-btn {
+      background: var(--green-gradient); border: none; border-radius: 50px;
+      color: #fff; font-size: 13px; font-weight: 600; height: 40px;
+    }
+    .menu-label { font-size: 14px; font-weight: 600; padding: 10px 14px; }
+    .menu-item {
+      display: flex; justify-content: space-between; align-items: center;
+      text-decoration: none; color: var(--text-main);
+      padding: 0 24px 0 16px; height: 48px; font-weight: 500; font-size: 13px;
+    }
+    .match-item { display: flex; align-items: center; gap: 8px; }
+    .match-item.active { color: var(--green); }
+    .status-xuly { padding-left: 34px; }
+    .status {
+      display: flex; align-items: center;
+      border-left: 2px solid var(--Neutral-D8);
+      padding: 8px 16px 8px 32px;
+      height: 48px; font-weight: 500; font-size: 13px;
+    }
+    .status.active { color: var(--green); border-left: 4px solid var(--green); }
+    .url { font-size: 10px; font-weight: 500; color: var(--Neutral-88); line-height: 1; }
+
+    /* ===== Topbar ===== */
+    .topbar { border-bottom: 1px solid var(--Neutral-235); height: 48px; }
+    .user-role { font-size: 10px; font-weight: 500; color: var(--Neutral-88); line-height: 12px; }
+
+    /* ===== Main title ===== */
+    .main-title { font-weight: 600; font-size: 22px; height: 64px; border-bottom: 1px solid var(--Neutral-235); }
+
+    /* ===== Filter bar ===== */
+    .filter-label { font-size: 12px; font-weight: 500; color: var(--Neutral-88); margin-bottom: 4px; display: block; }
+    .filter-option {
+      height: 44px; border-radius: 8px; border: 1px solid var(--Neutral-D8);
+      font-size: 13px; font-weight: 500; background: #fff; color: var(--text-main);
+      appearance: none;
+      background-image: url("assets/down.svg");
+      background-repeat: no-repeat; background-position: right 12px center; background-size: 20px;
+      padding: 0 36px 0 16px;
+    }
+    .filter-option.filter-unrequired { color: var(--Neutral-88); background-image: none; }
+    .filter-required { font-size: 11px; font-weight: 500; color: var(--Red-Alert); }
+    .btn-search {
+      width: 177px;
+      height: 44px; border-radius: 50px; border: none;
+      background: var(--green-gradient); color: #fff;
+      font-size: 13px; font-weight: 600;
+      display: flex; align-items: center;justify-content: center; gap: 4px; padding: 0 24px;
+    }
+
+    /* ===== Table header ===== */
+    .table-header {
+      display: grid;
+      grid-template-columns: 43px 177px 311px 110px 244px 111px 177px 1fr;
+      gap: 24px; align-items: center;
+      background: #fff; height: 44px;
+      border-top-left-radius: 16px; border-top-right-radius: 16px;
+      border-bottom: 1px solid var(--Neutral-235);
+    }
+    .th { font-size: 13px; font-weight: 500; color: var(--Neutral-88); }
+
+    /* ===== Row ===== */
+    .row-main {
+      display: grid;
+      grid-template-columns: 43px 177px 311px 110px 244px 111px 177px 1fr;
+      gap: 24px; align-items: center;
+      background: #fff; min-height: 72px; padding: 12px 0;
+    }
+    .td { font-size: 12px; color: var(--Neutral-88); overflow: hidden; }
+    .td-stt { text-align: center; font-weight: 600; color: var(--Neutral-88); }
+    .loan-id { font-weight: 600; font-size: 13px; color: var(--text-main); }
+    .product-cell { display: flex; align-items: center; gap: 8px; }
+    .prod-name { font-size: 13px; font-weight: 500; color: var(--text-main); }
+    .prod-sub  { font-size: 13px; font-weight: 500; color: var(--text-main); }
+    .prod-val  { font-size: 13px; font-weight: 500; color: var(--Neutral-88); }
+    .plate     { font-weight: 500; font-size: 13px; color: var(--text-main); }
+    .customer-cell { display: flex; align-items: center; gap: 8px; color: var(--text-main); font-weight: 600; font-size: 13px; }
+    .bank-badge { font-size: 13px; font-weight: 500; color: var(--text-main); }
+
+    /* ===== Tags ===== */
+    .tag          { display: inline-block; font-size: 10px; font-weight: 600; border-radius: 4px; width: fit-content; }
+    .tag-approved { color: var(--green); }
+    .tag-active   { color: var(--green); }
+    .tag-note     { font-size: 10px; color: #EB981C; font-weight: 500; }
+
+    /* ===== Action buttons ===== */
+    .btn-detail, .btn-add {
+      border-radius: 50px; border: none !important; outline: none;
+      width: 102px; height: 32px;
+      background: var(--Neutral-F8); color: var(--green);
+      font-size: 12px; font-weight: 600; font-family: inherit;
+      display: inline-flex; align-items: center; gap: 4px; justify-content: center;
+      cursor: pointer;
+    }
+
+    /* ===== Expand row ===== */
+    .expand-wrap { background: #fff; padding: 0 8px 8px; }
+    .row-expand {
+      display: grid; grid-template-columns: 102px auto;
+      background: var(--Neutral-E8); align-items: center;
+      padding: 16px 16px 16px 0;
+      border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
+      box-shadow: inset -4px -4px 4px rgba(0,0,0,.05), inset 2px 4px 3px rgba(0,0,0,.04);
+    }
+    .row-expand-label { display: flex; justify-content: center; align-items: center; }
+    .expand-label { font-size: 12px; color: var(--Neutral-88); font-weight: 500; text-align: center; width: 74px; }
+    .expand-inner {
+      display: grid;
+      grid-template-columns: 177px 244px 177px 177px 110px 177px 1fr;
+      gap: 24px; align-items: center;
+      background: #fff; border: 1px solid var(--Neutral-235);
+      border-radius: 6px; padding-left: 24px; min-height: 96px;
+    }
+    .doc-card-id { font-size: 13px; font-weight: 500; color: var(--text-main); }
+    .expand-details { display: contents; }
+    .detail-field { display: flex; flex-direction: column; gap: 2px; }
+    .detail-label { font-size: 12px; color: var(--Neutral-88); }
+    .detail-val   { font-size: 13px; font-weight: 500; color: var(--text-main); }
+    .expand-status { display: flex; flex-direction: column; gap: 8px; }
+    .expand-actions { display: flex; gap: 4px; align-items: center; }
+
+    /* ===== Footer / Pagination ===== */
+    .footer-bar { height: 32px; background: var(--Neutral-235); }
+    .total-text { font-size: 13px; color: var(--Gray-600); font-weight: 500; }
+    .total-text strong { font-weight: 700; }
+    .page-btn {
+      border: none; background: var(--Neutral-E8);
+      padding: 8px 20px; border-radius: 100px;
+      font-family: inherit; font-size: 13px; color: var(--green);
+      font-weight: 600; width: 121px; cursor: pointer;
+    }
+    .page-current {
+      border: 1px solid #DADADA; background: #fff;
+      border-radius: 35px; padding: 8px 20px;
+      font-weight: 600; font-family: inherit; font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="d-flex" style="min-height:100vh;">
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar-wrap d-flex flex-column py-4 gap-4">
+
+    <!-- Logo -->
+    <div class="d-flex justify-content-between align-items-center px-3">
+      <div class="d-flex align-items-center gap-2">
+        <img src="assets/logo-F88.svg"  alt="F88"   height="32" width="77" />
+        <img src="assets/PILOT.svg"     alt="PILOT" height="32" width="97" />
+      </div>
+      <img src="assets/logo-menu.svg" alt="menu" height="24" width="24" class="text-secondary" />
+    </div>
+
+    <!-- Tạo hợp đồng -->
+    <div class="px-3">
+      <button class="sidebar-create-btn w-100 d-flex align-items-center justify-content-center gap-2">
+        <img src="assets/taohopdong.svg" alt="" height="24" width="24" />
+        Tạo hợp đồng mới
+      </button>
+    </div>
+
+    <!-- Menu mới -->
+    <div class="d-flex flex-column gap-1">
+      <div class="menu-label">MENU VER.2</div>
+
+      <a class="menu-item" href="#">
+        <div class="match-item">
+          <img src="assets/icon-guetss.svg"       alt="" height="36" width="36" /> Quản lý khách hàng
+        </div>
+      </a>
+      <a class="menu-item" href="#">
+        <div class="match-item">
+          <img src="assets/ho so doi tac.svg"     alt="" height="36" width="36" /> Hồ sơ đối tác
+        </div>
+      </a>
+      <a class="menu-item" href="#">
+        <div class="match-item">
+          <img src="assets/chờ phe duyet.svg"     alt="" height="36" width="36" /> Hồ sơ chờ phê duyệt
+        </div>
+      </a>
+      <a class="menu-item" href="#">
+        <div class="match-item">
+          <img src="assets/quanlyhopdong.svg"     alt="" height="36" width="36" /> Quản lý hợp đồng vay
+        </div>
+        <img src="assets/down.svg" alt="" height="20" width="20" />
+      </a>
+
+      <!-- Hồ sơ chờ xử lý (expanded) -->
+      <div>
+        <a class="menu-item" href="#">
+          <div class="match-item active">
+            <img src="assets/hosochoxuly.svg" alt="" height="48" width="36" /> Hồ sơ chờ xử lý
+          </div>
+          <img src="assets/up.svg" alt="" height="20" width="20" />
+        </a>
+        <div class="status-xuly d-flex flex-column">
+          <span class="status">Chờ hoàn tất</span>
+          <span class="status active">Yêu cầu bổ sung(new)</span>
+          <span class="status">Đang tư vấn(appform)</span>
+        </div>
+      </div>
+
+      <a class="menu-item" href="#">
+        <div class="match-item">
+          <img src="assets/tro ve link goc.svg" alt="" height="36" width="36" />
+          <div class="d-flex flex-column" style="width:92px;">
+            <span style="font-size:13px;font-weight:500;">Trở về link gốc</span>
+            <span class="url">giaodich.f88.vn</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Menu cũ -->
+    <div class="d-flex flex-column gap-1">
+      <div class="menu-label">MENU CŨ</div>
+      <a class="menu-item" href="#">
+        <div class="match-item">
+          <img src="assets/taohopdong.svg"    alt="" height="36" width="36" /> Tạo hợp đồng
+        </div>
+      </a>
+      <a class="menu-item" href="#">
+        <div class="match-item">
+          <img src="assets/quanlyhopdong.svg" alt="" height="36" width="36" /> Quản lý hợp đồng
+        </div>
+        <img src="assets/down.svg" alt="" height="20" width="20" />
+      </a>
+    </div>
+
+  </aside>
+  <!-- ========== END SIDEBAR ========== -->
+
+
+  <!-- ========== MAIN ========== -->
+  <div class="d-flex flex-column flex-grow-1 gap-2">
+
+    <!-- Topbar -->
+    <header class="topbar d-flex justify-content-between align-items-center px-4">
+      <div class="d-flex align-items-center gap-3 fw-semibold" style="font-size:13px;">
+        <img src="assets/home.svg"  alt="" height="24" width="24" />
+        <img src="assets/right.svg" alt="" height="14" width="8" />
+        Hồ sơ bổ sung
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <img src="assets/Bell.svg" alt="" height="32" width="32" />
+        <div class="d-flex align-items-center gap-2">
+          <img src="assets/avatar.svg" alt="" height="32" width="32" />
+          <div class="d-flex flex-column">
+            <span style="font-size:13px;font-weight:500;">Nguyễn Huy Công</span>
+            <div class="user-role d-flex align-items-center gap-2">
+              Chuyên viên kinh doanh
+              <img src="assets/down.svg" alt="" height="16" width="16" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page title -->
+    <div class="main-title d-flex align-items-center gap-3 px-4">
+      <img src="assets/left.svg" alt="" height="24" width="24" />
+      Hồ sơ yêu cầu bổ sung
+    </div>
+
+    <!-- Content area -->
+    <div class="px-4 d-flex flex-column gap-3">
+
+      <!-- ===== FILTER BAR ===== -->
+      <div class="d-flex align-items-start gap-3 flex-wrap">
+
+        <div class="d-flex flex-column gap-1" style="width:252px;">
+          <label class="filter-label">Trạng thái hồ sơ</label>
+          <select class="filter-option w-100">
+            <option>Tất cả các trạng thái</option>
+            <option>Đã phê duyệt</option>
+            <option>Đang vay</option>
+          </select>
+          <span class="filter-required">Thông tin bắt buộc</span>
+        </div>
+
+        <div class="d-flex flex-column gap-1" style="width:252px;">
+          <label class="filter-label">Tìm hợp đồng theo</label>
+          <input class="filter-option filter-unrequired w-100" type="text" placeholder="Mã HĐ, tên, tin tức, SĐT..." />
+        </div>
+
+        <div class="d-flex flex-column gap-1" style="width:252px;">
+          <label class="filter-label">Kênh kinh doanh</label>
+          <select class="filter-option w-100">
+            <option>1 kênh đã chọn</option>
+          </select>
+          <span class="filter-required ">Thông tin bắt buộc</span>
+        </div>
+
+        <div class="d-flex flex-column gap-1" style="width:252px;">
+          <label class="filter-label">Shop</label>
+          <select class="filter-option w-100">
+            <option>Chọn shop</option>
+          </select>
+          <span class="filter-required">Thông tin bắt buộc</span>
+        </div>
+
+        <div class="d-flex flex-column gap-1" style="width:252px;">
+          <label class="filter-label">Đối tác</label>
+          <select class="filter-option w-100">
+            <option>Chọn đối tác</option>
+          </select>
+          <span class="filter-required">Thông tin bắt buộc</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-3 pt-4"style="width:240px;">
+          <img src="assets/Advance search.svg" alt="" height="44" width="44" />
+          <button class="btn-search">
+            <img src="assets/Search icon.svg" alt="" height="24" width="24" />
+            Tìm
+          </button>
+        </div>
+      </div>
+      <!-- END FILTER BAR -->
+
+
+      <!-- ===== DATA TABLE ===== -->
+      <div class="d-flex flex-column gap-1">
+
+        <!-- Table header -->
+        <div class="table-header px-0">
+          <div class="th ps-2">STT</div>
+          <div class="th">Mã hợp đồng</div>
+          <div class="th">Thông tin tài sản</div>
+          <div class="th">Biển số</div>
+          <div class="th">Khách hàng</div>
+          <div class="th">Nguồn</div>
+          <div class="th">Tình trạng hợp đồng</div>
+          <div class="th">Chức năng</div>
+        </div>
+
+        <!-- Table content -->
+        <div class="d-flex flex-column gap-1">
+
+          <!-- Macro: row with expand -->
+          <!-- ROW 1 -->
+          <div class="row g-0">
+            <div class="row-main px-0">
+              <div class="td td-stt">1</div>
+              <div class="td"><div class="loan-id">HSHM/240102/CIMB0291</div></div>
+              <div class="td">
+                <div class="product-cell">
+                  <img src="assets/honda.svg" alt="" height="44" width="44" />
+                  <div>
+                    <div class="prod-name">Xe máy HONDA AirBlade 150 ABS</div>
+                    <div class="prod-sub">(phom 2020) 2020</div>
+                  </div>
+                </div>
+              </div>
+              <div class="td"><div class="plate">29G1-888.88</div></div>
+              <div class="td">
+                <div class="customer-cell">
+                  <img class="rounded-circle" src="assets/nu4.svg" alt="" height="24" width="24" />
+                  <span>Trần Thị Quỳnh</span>
+                </div>
+              </div>
+              <div class="td"><span class="bank-badge">CIMB</span></div>
+              <div class="td"><span class="tag tag-approved">• Đã phê duyệt</span></div>
+              <div class="td">
+                <div class="d-flex align-items-center gap-2">
+                  <button class="btn-detail"><img src="assets/Open-icon.svg" alt="" height="16" width="16" /> Chi tiết</button>
+                </div>
+              </div>
+            </div>
+            <div class="expand-wrap">
+              <div class="row-expand">
+                <div class="row-expand-label"><span class="expand-label">Thông tin giấy nhận nợ</span></div>
+                <div class="expand-inner">
+                  <div class="doc-card d-flex align-items-center gap-1">
+                    <img src="assets/contract.svg" alt="" height="16" width="16" />
+                    <div class="doc-card-id">CIMB/31195433/01</div>
+                  </div>
+                  <div class="expand-details">
+                    <div class="detail-field">
+                      <div class="prod-val">KHCN_FBE_VM_CONGNGHAN</div>
+                      <div class="prod-sub">Sản phẩm cho vay cầm cố xe máy</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Số tiền ghi nợ</div>
+                      <div class="detail-val">1.905.000.000đ</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Số tiền thực nhận</div>
+                      <div class="detail-val">1.805.000.000đ</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Kỳ hạn</div>
+                      <div class="detail-val">12 tháng</div>
+                    </div>
+                  </div>
+                  <div class="expand-status">
+                    <span class="tag tag-approved">• Đã phê duyệt</span>
+                    <span class="tag tag-active">• Đang vay</span>
+                    <div class="tag-note">Giải ngân một phần</div>
+                  </div>
+                  <div class="expand-actions">
+                    <button class="btn-detail"><img src="assets/Open-icon.svg" alt="" height="16" width="16" /> Chi tiết</button>
+                    <button class="btn-add"><img src="assets/add icon.svg" alt="" height="16" width="16" /> Bổ sung</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- END ROW 1 -->
+
+          <!-- ROW 2 -->
+          <div class="row g-0">
+            <div class="row-main px-0">
+              <div class="td td-stt">2</div>
+              <div class="td"><div class="loan-id">HSHM/240102/CIMB0291</div></div>
+              <div class="td">
+                <div class="product-cell">
+                  <img src="assets/honda.svg" alt="" height="44" width="44" />
+                  <div>
+                    <div class="prod-name">Xe máy HONDA AirBlade 150 ABS</div>
+                    <div class="prod-sub">(phom 2020) 2020</div>
+                  </div>
+                </div>
+              </div>
+              <div class="td"><div class="plate">29G1-888.88</div></div>
+              <div class="td">
+                <div class="customer-cell">
+                  <img class="rounded-circle" src="assets/nu4.svg" alt="" height="24" width="24" />
+                  <span>Trần Thị Quỳnh</span>
+                </div>
+              </div>
+              <div class="td"><span class="bank-badge">CIMB</span></div>
+              <div class="td"><span class="tag tag-approved">• Đã phê duyệt</span></div>
+              <div class="td">
+                <div class="d-flex align-items-center gap-2">
+                  <button class="btn-detail"><img src="assets/Open-icon.svg" alt="" height="16" width="16" /> Chi tiết</button>
+                </div>
+              </div>
+            </div>
+            <div class="expand-wrap">
+              <div class="row-expand">
+                <div class="row-expand-label"><span class="expand-label">Thông tin giấy nhận nợ</span></div>
+                <div class="expand-inner">
+                  <div class="doc-card d-flex align-items-center gap-1">
+                    <img src="assets/contract.svg" alt="" height="16" width="16" />
+                    <div class="doc-card-id">CIMB/31195433/01</div>
+                  </div>
+                  <div class="expand-details">
+                    <div class="detail-field">
+                      <div class="prod-val">KHCN_FBE_VM_CONGNGHAN</div>
+                      <div class="prod-sub">Sản phẩm cho vay cầm cố xe máy</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Số tiền ghi nợ</div>
+                      <div class="detail-val">1.905.000.000đ</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Số tiền thực nhận</div>
+                      <div class="detail-val">1.805.000.000đ</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Kỳ hạn</div>
+                      <div class="detail-val">12 tháng</div>
+                    </div>
+                  </div>
+                  <div class="expand-status">
+                    <span class="tag tag-approved">• Đã phê duyệt</span>
+                    <span class="tag tag-active">• Đang vay</span>
+                    <div class="tag-note">Giải ngân một phần</div>
+                  </div>
+                  <div class="expand-actions">
+                    <button class="btn-detail"><img src="assets/Open-icon.svg" alt="" height="16" width="16" /> Chi tiết</button>
+                    <button class="btn-add"><img src="assets/add icon.svg" alt="" height="16" width="16" /> Bổ sung</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- END ROW 2 -->
+
+          <!-- ROW 3 (no expand) -->
+          <div class="row g-0">
+            <div class="row-main px-0">
+              <div class="td td-stt">3</div>
+              <div class="td"><div class="loan-id">HSHM/240102/CIMB0291</div></div>
+              <div class="td">
+                <div class="product-cell">
+                  <img src="assets/honda.svg" alt="" height="44" width="44" />
+                  <div>
+                    <div class="prod-name">Xe máy HONDA AirBlade 150 ABS</div>
+                    <div class="prod-sub">(phom 2020) 2020</div>
+                  </div>
+                </div>
+              </div>
+              <div class="td"><div class="plate">29G1-888.88</div></div>
+              <div class="td">
+                <div class="customer-cell">
+                  <img class="rounded-circle" src="assets/nu4.svg" alt="" height="24" width="24" />
+                  <span>Trần Thị Quỳnh</span>
+                </div>
+              </div>
+              <div class="td"><span class="bank-badge">CIMB</span></div>
+              <div class="td"><span class="tag tag-approved">• Đã phê duyệt</span></div>
+              <div class="td">
+                <div class="d-flex align-items-center gap-2">
+                  <button class="btn-detail"><img src="assets/Open-icon.svg" alt="" height="16" width="16" /> Chi tiết</button>
+                </div>
+              </div>
+            </div>
+          </div><!-- END ROW 3 -->
+
+          <!-- ROW 4 -->
+          <div class="row g-0">
+            <div class="row-main px-0">
+              <div class="td td-stt">4</div>
+              <div class="td"><div class="loan-id">HSHM/240102/CIMB0291</div></div>
+              <div class="td">
+                <div class="product-cell">
+                  <img src="assets/honda.svg" alt="" height="44" width="44" />
+                  <div>
+                    <div class="prod-name">Xe máy HONDA AirBlade 150 ABS</div>
+                    <div class="prod-sub">(phom 2020) 2020</div>
+                  </div>
+                </div>
+              </div>
+              <div class="td"><div class="plate">29G1-888.88</div></div>
+              <div class="td">
+                <div class="customer-cell">
+                  <img class="rounded-circle" src="assets/nu4.svg" alt="" height="24" width="24" />
+                  <span>Trần Thị Quỳnh</span>
+                </div>
+              </div>
+              <div class="td"><span class="bank-badge">CIMB</span></div>
+              <div class="td"><span class="tag tag-approved">• Đã phê duyệt</span></div>
+              <div class="td">
+                <div class="d-flex align-items-center gap-2">
+                  <button class="btn-detail"><img src="assets/Open-icon.svg" alt="" height="16" width="16" /> Chi tiết</button>
+                </div>
+              </div>
+            </div>
+            <div class="expand-wrap">
+              <div class="row-expand">
+                <div class="row-expand-label"><span class="expand-label">Thông tin giấy nhận nợ</span></div>
+                <div class="expand-inner">
+                  <div class="doc-card d-flex align-items-center gap-1">
+                    <img src="assets/contract.svg" alt="" height="16" width="16" />
+                    <div class="doc-card-id">CIMB/31195433/01</div>
+                  </div>
+                  <div class="expand-details">
+                    <div class="detail-field">
+                      <div class="prod-val">KHCN_FBE_VM_CONGNGHAN</div>
+                      <div class="prod-sub">Sản phẩm cho vay cầm cố xe máy</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Số tiền ghi nợ</div>
+                      <div class="detail-val">1.905.000.000đ</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Số tiền thực nhận</div>
+                      <div class="detail-val">1.805.000.000đ</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Kỳ hạn</div>
+                      <div class="detail-val">12 tháng</div>
+                    </div>
+                  </div>
+                  <div class="expand-status">
+                    <span class="tag tag-approved">• Đã phê duyệt</span>
+                    <span class="tag tag-active">• Đang vay</span>
+                    <div class="tag-note">Giải ngân một phần</div>
+                  </div>
+                  <div class="expand-actions">
+                    <button class="btn-detail"><img src="assets/Open-icon.svg" alt="" height="16" width="16" /> Chi tiết</button>
+                    <button class="btn-add"><img src="assets/add icon.svg" alt="" height="16" width="16" /> Bổ sung</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- END ROW 4 -->
+
+          <!-- ROW 5 (no expand) -->
+          <div class="row g-0">
+            <div class="row-main px-0">
+              <div class="td td-stt">5</div>
+              <div class="td"><div class="loan-id">HSHM/240102/CIMB0291</div></div>
+              <div class="td">
+                <div class="product-cell">
+                  <img src="assets/honda.svg" alt="" height="44" width="44" />
+                  <div>
+                    <div class="prod-name">Xe máy HONDA AirBlade 150 ABS</div>
+                    <div class="prod-sub">(phom 2020) 2020</div>
+                  </div>
+                </div>
+              </div>
+              <div class="td"><div class="plate">29G1-888.88</div></div>
+              <div class="td">
+                <div class="customer-cell">
+                  <img class="rounded-circle" src="assets/nu4.svg" alt="" height="24" width="24" />
+                  <span>Trần Thị Quỳnh</span>
+                </div>
+              </div>
+              <div class="td"><span class="bank-badge">CIMB</span></div>
+              <div class="td"><span class="tag tag-approved">• Đã phê duyệt</span></div>
+              <div class="td">
+                <div class="d-flex align-items-center gap-2">
+                  <button class="btn-detail"><img src="assets/Open-icon.svg" alt="" height="16" width="16" /> Chi tiết</button>
+                </div>
+              </div>
+            </div>
+          </div><!-- END ROW 5 -->
+
+          <!-- ROW 6 -->
+          <div class="row g-0">
+            <div class="row-main px-0">
+              <div class="td td-stt">6</div>
+              <div class="td"><div class="loan-id">HSHM/240102/CIMB0291</div></div>
+              <div class="td">
+                <div class="product-cell">
+                  <img src="assets/honda.svg" alt="" height="44" width="44" />
+                  <div>
+                    <div class="prod-name">Xe máy HONDA AirBlade 150 ABS</div>
+                    <div class="prod-sub">(phom 2020) 2020</div>
+                  </div>
+                </div>
+              </div>
+              <div class="td"><div class="plate">29G1-888.88</div></div>
+              <div class="td">
+                <div class="customer-cell">
+                  <img class="rounded-circle" src="assets/nu4.svg" alt="" height="24" width="24" />
+                  <span>Trần Thị Quỳnh</span>
+                </div>
+              </div>
+              <div class="td"><span class="bank-badge">CIMB</span></div>
+              <div class="td"><span class="tag tag-approved">• Đã phê duyệt</span></div>
+              <div class="td">
+                <div class="d-flex align-items-center gap-2">
+                  <button class="btn-detail"><img src="assets/Open-icon.svg" alt="" height="16" width="16" /> Chi tiết</button>
+                </div>
+              </div>
+            </div>
+            <div class="expand-wrap">
+              <div class="row-expand">
+                <div class="row-expand-label"><span class="expand-label">Thông tin giấy nhận nợ</span></div>
+                <div class="expand-inner">
+                  <div class="doc-card d-flex align-items-center gap-1">
+                    <img src="assets/contract.svg" alt="" height="16" width="16" />
+                    <div class="doc-card-id">CIMB/31195433/01</div>
+                  </div>
+                  <div class="expand-details">
+                    <div class="detail-field">
+                      <div class="prod-val">KHCN_FBE_VM_CONGNGHAN</div>
+                      <div class="prod-sub">Sản phẩm cho vay cầm cố xe máy</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Số tiền ghi nợ</div>
+                      <div class="detail-val">1.905.000.000đ</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Số tiền thực nhận</div>
+                      <div class="detail-val">1.805.000.000đ</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-label">Kỳ hạn</div>
+                      <div class="detail-val">12 tháng</div>
+                    </div>
+                  </div>
+                  <div class="expand-status">
+                    <span class="tag tag-approved">• Đã phê duyệt</span>
+                    <span class="tag tag-active">• Đang vay</span>
+                    <div class="tag-note">Giải ngân một phần</div>
+                  </div>
+                  <div class="expand-actions">
+                    <button class="btn-detail"><img src="assets/Open-icon.svg" alt="" height="16" width="16" /> Chi tiết</button>
+                    <button class="btn-add"><img src="assets/add icon.svg" alt="" height="16" width="16" /> Bổ sung</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- END ROW 6 -->
+
+          <!-- ROW 7 (no expand) -->
+          <div class="row g-0">
+            <div class="row-main px-0">
+              <div class="td td-stt">7</div>
+              <div class="td"><div class="loan-id">HSHM/240102/CIMB0291</div></div>
+              <div class="td">
+                <div class="product-cell">
+                  <img src="assets/honda.svg" alt="" height="44" width="44" />
+                  <div>
+                    <div class="prod-name">Xe máy HONDA AirBlade 150 ABS</div>
+                    <div class="prod-sub">(phom 2020) 2020</div>
+                  </div>
+                </div>
+              </div>
+              <div class="td"><div class="plate">29G1-888.88</div></div>
+              <div class="td">
+                <div class="customer-cell">
+                  <img class="rounded-circle" src="assets/nu4.svg" alt="" height="24" width="24" />
+                  <span>Trần Thị Quỳnh</span>
+                </div>
+              </div>
+              <div class="td"><span class="bank-badge">CIMB</span></div>
+              <div class="td"><span class="tag tag-approved">• Đã phê duyệt</span></div>
+              <div class="td">
+                <div class="d-flex align-items-center gap-2">
+                  <button class="btn-detail"><img src="assets/Open-icon.svg" alt="" height="16" width="16" /> Chi tiết</button>
+                </div>
+              </div>
+            </div>
+          </div><!-- END ROW 7 -->
+
+        </div><!-- end table-content -->
+      </div><!-- end data-table -->
+
+      <!-- ===== FOOTER / PAGINATION ===== -->
+      <div class="footer-bar d-flex justify-content-between align-items-center px-2">
+        <div class="total-text">Tổng số lượng: <strong>8.993</strong></div>
+        <div class="pagination d-flex align-items-center gap-2">
+          <div class="d-flex align-items-center gap-2" style="color:#333;font-weight:500;">
+            Trang
+            <button class="page-current">1</button>
+            / 50
+          </div>
+          <button class="page-btn">Trang tiếp ›</button>
+        </div>
+      </div>
+
+    </div><!-- end content px-4 -->
+  </div><!-- end main -->
+
+</div><!-- end app d-flex -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
